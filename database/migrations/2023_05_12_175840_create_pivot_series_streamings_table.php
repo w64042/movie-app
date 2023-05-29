@@ -14,10 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pivot_series_streamings', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('series_id');
             $table->unsignedBigInteger('streaming_id');
-            $table->primary(['series_id', 'streaming_id']);
         });
+
+        Schema::table('pivot_series_streamings', function (Blueprint $table){
+            $table->foreign('series_id')->references('id')->on('series');
+            $table->foreign('streaming_id')->references('id')->on('streamings');
+        });
+
     }
 
     /**

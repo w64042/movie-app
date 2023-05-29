@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('genres', function (Blueprint $table) {
+        Schema::create('subscription_features', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
+            $table->foreignId('subscription_level_id')->constrained('subscription_levels');
             $table->timestamps();
         });
 
-        Schema::table('movies', function (Blueprint $table) {
-            $table->unsignedBigInteger('genre_id')->nullable();
-            $table->foreign('genre_id')->references('id')->on('genres');
-        });
     }
 
     /**
@@ -32,11 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('movies', function (Blueprint $table) {
-            $table->dropForeign('movies_genre_id_foreign');
-            $table->dropColumn('genre_id');
-        });
-
-        Schema::dropIfExists('genres');
+        Schema::dropIfExists('subscription_features');
     }
 };

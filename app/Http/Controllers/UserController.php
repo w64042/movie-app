@@ -10,33 +10,37 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return response()->json($users);
+        return UserResource::collection($users);
     }
 
     public function show($id)
     {
         $user = User::find($id);
 
-        return response()->json($user);
+        return new UserResource($user);
     }
 
-    public function store(Request $request)
-    {
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
+    // public function store(Request $request)
+    // {
+    //     $user = User::create([
+    //         'name' => $request->get('name'),
+    //         'email' => $request->get('email'),
+    //         'password' => bcrypt($request->get('password'))
+    //     ]);
 
-        return response()->json($user);
-    }
+    //     return new BookResource($user);
+    // }
 
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        $user->update($request->all());
-        $user->save();
-
+        if($user->id !== auth()->user()->id){
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+        $user->update([
+            'name' => $request->get('name'),
+            'email' => $request->get('email')
+        ]);
         return response()->json($user);
     }
 

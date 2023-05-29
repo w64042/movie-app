@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pivot_movies_streamings', function (Blueprint $table) {
+        Schema::create('list_movies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('list_id');
             $table->unsignedBigInteger('movie_id');
-            $table->unsignedBigInteger('streaming_id');
+            $table->timestamps();
         });
 
-        Schema::table('pivot_movies_streamings', function (Blueprint $table){
+        Schema::table('list_movies', function (Blueprint $table){
+            $table->foreign('list_id')->references('id')->on('lists');
             $table->foreign('movie_id')->references('id')->on('movies');
-            $table->foreign('streaming_id')->references('id')->on('streamings');
         });
-
     }
 
     /**
@@ -33,7 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-
-        Schema::dropIfExists('pivot_movies_streamings');
+        Schema::dropIfExists('list_movies');
     }
 };
