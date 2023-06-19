@@ -20,16 +20,16 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $user = User::create([
-    //         'name' => $request->get('name'),
-    //         'email' => $request->get('email'),
-    //         'password' => bcrypt($request->get('password'))
-    //     ]);
+    public function store(Request $request)
+    {
+        $user = User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password'))
+        ]);
 
-    //     return new BookResource($user);
-    // }
+        return new BookResource($user);
+    }
 
     public function update(Request $request, $id)
     {

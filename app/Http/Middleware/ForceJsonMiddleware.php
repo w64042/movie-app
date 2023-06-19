@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class IsSameUserMiddleware
+class ForceJsonMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,10 +16,7 @@ class IsSameUserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if($request->route('id') !== Auth::user()?->id){
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
+        $request->headers->set('Accept', 'application/json');
         return $next($request);
     }
 }

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->integer('seasons');
+            $table->integer('episodes');
             $table->timestamps();
         });
     }

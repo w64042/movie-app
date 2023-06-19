@@ -23,6 +23,11 @@ return new class extends Migration
             $table->unsignedBigInteger('genre_id')->nullable();
             $table->foreign('genre_id')->references('id')->on('genres');
         });
+
+        Schema::table('series', function (Blueprint $table) {
+            $table->unsignedBigInteger('genre_id')->nullable();
+            $table->foreign('genre_id')->references('id')->on('genres');
+        });
     }
 
     /**
@@ -33,7 +38,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->dropForeign('movies_genre_id_foreign');
+            $table->dropForeign('genre_id');
+            $table->dropColumn('genre_id');
+        });
+
+        Schema::table('series', function (Blueprint $table) {
+            $table->dropForeign('genre_id');
             $table->dropColumn('genre_id');
         });
 
