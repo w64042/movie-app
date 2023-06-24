@@ -43,4 +43,31 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the lists for the user.
+     */
+
+    public function lists()
+    {
+        return $this->hasMany('App\Models\Lists\List');
+    }
+
+    public function subscription()
+    {
+        return $this->belongsTo('App\Models\Subscription');
+    }
+
+    // check if user has a subscription, check end date
+    public function hasSubscription()
+    {
+        $subscription = $this->subscription;
+        if ($subscription) {
+            $endDate = $subscription->pivot->end_date;
+            if ($endDate > now()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
