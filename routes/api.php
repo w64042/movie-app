@@ -32,26 +32,28 @@ Route::prefix('v1')->group(function () {
         Route::post('/refresh', [AuthController::class, 'refresh']);
         Route::post('/register', [AuthController::class, 'register']);
 
-        Route::get('/users', [UserController::class, 'index']);
+        Route::middleware(['admin'])->group(function () {
+            Route::get('/users', [UserController::class, 'index']);
+            Route::post('/users', [UserController::class, 'store']);
+            Route::put('/users/{id}', [UserController::class, 'update']);
+            Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+            Route::post('/movies', [MovieController::class, 'store']);
+            Route::put('/movies/{id}', [MovieController::class, 'update']);
+            Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
+
+            Route::post('/series', [SeriesController::class, 'store']);
+            Route::put('/series/{id}', [SeriesController::class, 'update']);
+            Route::delete('/series/{id}', [SeriesController::class, 'destroy']);
+        });
+
         Route::get('/users/{id}', [UserController::class, 'show']);
-        Route::post('/users', [UserController::class, 'store']);
-        Route::put('/users/{id}', [UserController::class, 'update']);
-        Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
         Route::get('/movies', [MovieController::class, 'index']);
         Route::get('/movies/{id}', [MovieController::class, 'show']);
-        Route::post('/movies', [MovieController::class, 'store']);
-        Route::put('/movies/{id}', [MovieController::class, 'update']);
-        Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
 
         Route::get('/series', [SeriesController::class, 'index']);
         Route::get('/series/{id}', [SeriesController::class, 'show']);
-        Route::post('/series', [SeriesController::class, 'store']);
-        Route::put('/series/{id}', [SeriesController::class, 'update']);
-        Route::delete('/series/{id}', [SeriesController::class, 'destroy']);
     });
 
-
-
 });
-

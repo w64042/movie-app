@@ -14,6 +14,8 @@ class Series extends Model
         'description',
         'seasons',
         'episodes',
+        'genre_id',
+        'director_id',
     ];
 
     public function genres()

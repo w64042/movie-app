@@ -22,13 +22,19 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|string|min:8|max:32'
+        ]);
+
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password'))
         ]);
 
-        return new BookResource($user);
+        return new UserResource($user);
     }
 
     public function update(Request $request, $id)

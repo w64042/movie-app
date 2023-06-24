@@ -14,6 +14,8 @@ class Movie extends Model
         'description',
         'year',
         'runtime',
+        'genre_id',
+        'director_id',
     ];
 
     public function genres()
