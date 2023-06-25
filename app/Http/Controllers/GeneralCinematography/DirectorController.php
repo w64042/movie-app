@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\GeneralCinematography;
 
 use App\Http\Controllers\Controller;
+use App\Models\Director;
 use Illuminate\Http\Request;
 
 class DirectorController extends Controller

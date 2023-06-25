@@ -28,4 +28,8 @@ class Series extends Model
         return $this->hasOne('App\Models\Director');
     }
 
+    public function favourites()
+    {
+        return $this->morphMany('App\Models\Favourite', 'favouriteable');
+    }
 }
