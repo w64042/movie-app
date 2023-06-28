@@ -21,9 +21,9 @@ class Subscription extends Model
         return $this->hasMany('App\Models\User');
     }
 
-    public function subscription()
+    public function features()
     {
-        return $this->belongsTo('App\Models\Subscription');
+        return $this->hasMany('App\Models\SubscriptionFeature', 'subscription_level_id', 'id');
     }
 
 }

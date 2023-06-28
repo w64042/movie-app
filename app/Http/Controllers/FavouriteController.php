@@ -50,27 +50,27 @@ class FavouriteController extends Controller
         $genres = [];
         if($favourites !== null) {
             foreach($favourites as $favourite) {
-                $genres[] = $favourite->favouriteable->genre;
+                $favourite->favouriteable->genre ? $genres[] = $favourite->favouriteable->genre->id : null;
             }
+
             $max = array_count_values($genres);
             $max = array_keys($max, max($max));
         }
 
+        if(isset($max)) {
 
-        if(isset($max) && count($max) > 1) {
-            $series = Series::whereIn('genre_id', $max[0])->take(3)->get();
-            $movies = Movie::whereIn('genre_id', $max[0])->take(3)->get();
-
-            $max ['genre'] = $max[0];
+            $series = Series::whereIn('genre_id', $max)->whereNotIn('id', $favourites->pluck('id'))->take(3)->get();
+            $movies = Movie::whereIn('genre_id', $max)->whereNotIn('id', $favourites->pluck('id'))->take(3)->get();
+            $results['genre'] = $max[0];
         } else {
+            $max['genre'] = null;
             $series = Series::take(3)->get();
             $movies = Movie::take(3)->get();
-            $max['genre'] = null;
         }
 
-        $max['series'] = $series;
-        $max['movies'] = $movies;
+        $results['series'] = $series;
+        $results['movies'] = $movies;
 
-        return response()->json($max);
+        return response()->json($results);
     }
 }

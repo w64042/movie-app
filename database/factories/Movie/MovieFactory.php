@@ -24,6 +24,8 @@ class MovieFactory extends Factory
             'description' => $faker->paragraph(),
             'year' => $faker->year(1990, 2023),
             'runtime' => $faker->numberBetween(6000, 8000),
+            'director_id' => $faker->numberBetween(1, 10),
+            'genre_id' => $faker->numberBetween(1, 10),
         ];
     }
 }

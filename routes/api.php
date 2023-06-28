@@ -7,9 +7,8 @@ use App\Http\Controllers\GeneralCinematography\DirectorController;
 use App\Http\Controllers\GeneralCinematography\GenreController;
 use App\Http\Controllers\Movies\MovieController;
 use App\Http\Controllers\Series\SeriesController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
-use App\Models\Favourite;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,17 +28,17 @@ Route::prefix('v1')->group(function () {
     Route::post('/send-reset-password', [ResetPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/login', [AuthController::class, 'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/refresh', [AuthController::class, 'refresh']);
-        Route::post('/register', [AuthController::class, 'register']);
 
         Route::middleware(['admin'])->group(function () {
             Route::get('/users', [UserController::class, 'index']);
             Route::post('/users', [UserController::class, 'store']);
-            Route::put('/users/{id}', [UserController::class, 'update']);
             Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
             Route::post('/movies', [MovieController::class, 'store']);
@@ -57,9 +56,13 @@ Route::prefix('v1')->group(function () {
             Route::post('/genres', [GenreController::class, 'store']);
             Route::put('/genres/{id}', [GenreController::class, 'update']);
             Route::delete('/genres/{id}', [GenreController::class, 'destroy']);
+
+            Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+            Route::post('/unsubscribe', [SubscriptionController::class, 'unsubscribe']);
         });
 
         Route::get('/users/{id}', [UserController::class, 'show']);
+        Route::put('/users/{id}', [UserController::class, 'update']);
 
         Route::get('/movies', [MovieController::class, 'index']);
         Route::get('/movies/{id}', [MovieController::class, 'show']);
@@ -81,6 +84,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
         Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
 
+        Route::get('/subscriptions', [SubscriptionController::class, 'index']);
     });
 
 });

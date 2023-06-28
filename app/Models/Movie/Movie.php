@@ -18,14 +18,14 @@ class Movie extends Model
         'director_id',
     ];
 
-    public function genres()
+    public function genre()
     {
-        return $this->hasOne('App\Models\Genre');
+        return $this->belongsTo('App\Models\Genre');
     }
 
     public function directors()
     {
-        return $this->hasOne('App\Models\Director');
+        return $this->belongsTo('App\Models\Director');
     }
 
     public function favourites()
