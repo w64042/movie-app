@@ -58,6 +58,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsTo('App\Models\Subscription');
     }
 
+    public function favourites()
+    {
+        return $this->hasMany('App\Models\Favourite');
+    }
+
     // check if user has a subscription, check end date
     public function hasSubscription()
     {

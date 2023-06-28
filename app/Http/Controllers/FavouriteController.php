@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
+use App\Models\Movie\Movie;
 use App\Models\Series\Series;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,6 @@ class FavouriteController extends Controller
         $fav->user_id = $user->id;
         $favourite = $type->favourites()->save($fav);
 
-
         return response()->json($favourite);
     }
 
@@ -48,24 +48,24 @@ class FavouriteController extends Controller
         $favourites = $user->favourites;
 
         $genres = [];
-
-        foreach($favourites as $favourite) {
-            $genres[] = $favourite->favouriteable->genre;
+        if($favourites !== null) {
+            foreach($favourites as $favourite) {
+                $genres[] = $favourite->favouriteable->genre;
+            }
+            $max = array_count_values($genres);
+            $max = array_keys($max, max($max));
         }
 
-        $max = array_count_values($genres);
-        $max = array_keys($max, max($max));
 
-        if(count($max) > 1) {
+        if(isset($max) && count($max) > 1) {
             $series = Series::whereIn('genre_id', $max[0])->take(3)->get();
             $movies = Movie::whereIn('genre_id', $max[0])->take(3)->get();
 
-            $max = [
-                'genre' => $max[0],
-            ];
+            $max ['genre'] = $max[0];
         } else {
             $series = Series::take(3)->get();
             $movies = Movie::take(3)->get();
+            $max['genre'] = null;
         }
 
         $max['series'] = $series;

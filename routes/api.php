@@ -76,10 +76,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/genres/{id}', [GenreController::class, 'show']);
 
 
-        Route::get('/favorites', [FavouriteController::class, 'index']);
-        Route::post('/favorites', [FavouriteController::class, 'store']);
-        Route::delete('/favorites/{id}', [FavouriteController::class, 'destroy']);
-        Route::get('/favorite-genre-hints', [FavouriteController::class, 'getHints']);
+        Route::get('/favourites', [FavouriteController::class, 'index']);
+        Route::post('/favourites', [FavouriteController::class, 'store']);
+        Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
+        Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
 
     });
 
