@@ -17,9 +17,6 @@ class IsActiveSubscription
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        // if($user) {
-        //     return response()->json(['error' => 'Unactive subscription', 'subscription' => null], 403);
-        // }
 
         $subscription = $user->subscription;
 
