@@ -12,7 +12,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable, \Illuminate\Auth\Passwords\CanResetPassword;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use \Illuminate\Auth\Passwords\CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +58,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function subscription()
     {
-        return $this->belongsTo('App\Models\Subscription');
+        return $this->belongsTo('App\Models\UserSubscription', 'id', 'user_id');
     }
 
     public function favourites()
@@ -63,16 +66,4 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany('App\Models\Favourite');
     }
 
-    // check if user has a subscription, check end date
-    public function hasSubscription()
-    {
-        $subscription = $this->subscription;
-        if ($subscription) {
-            $endDate = $subscription->pivot->end_date;
-            if ($endDate > now()) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

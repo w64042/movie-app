@@ -17,17 +17,21 @@ class IsActiveSubscription
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if($user && $user->hasSubscription) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        // $subscription = $user->subscription;
-        // if ($subscription) {
-        //     $endDate = $subscription->pivot->end_date;
-        //     if ($endDate > now()) {
-        //         return true;
-        //     }
+        // if($user) {
+        //     return response()->json(['error' => 'Unactive subscription', 'subscription' => null], 403);
         // }
+
+        $subscription = $user->subscription;
+
+        if (!isset($subscription)) {
+            return response()->json(['error' => 'Unactive subscription', 'subscription' => null], 403);
+        } else {
+            $endDate = $subscription->pivot->pluck('end_date')->orderBy('id', 'DESC')->first();
+
+            if (isset($endDate) && $endDate < now()) {
+                return response()->json(['error' => 'Unactive subscription', 'subscription' => $subscription], 403);
+            }
+        }
 
         return $next($request);
     }

@@ -24,13 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1')->group(function () {
-
     Route::post('/send-reset-password', [ResetPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -57,34 +55,36 @@ Route::prefix('v1')->group(function () {
             Route::put('/genres/{id}', [GenreController::class, 'update']);
             Route::delete('/genres/{id}', [GenreController::class, 'destroy']);
 
-            Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+        });
+
+        Route::middleware(['subscription'])->group(function () {
+            Route::get('/users/{id}', [UserController::class, 'show']);
+            Route::put('/users/{id}', [UserController::class, 'update']);
+
+            Route::get('/movies', [MovieController::class, 'index']);
+            Route::get('/movies/{id}', [MovieController::class, 'show']);
+
+            Route::get('/series', [SeriesController::class, 'index']);
+            Route::get('/series/{id}', [SeriesController::class, 'show']);
+
+
+            Route::get('/directors', [DirectorController::class, 'index']);
+            Route::get('/directors/{id}', [DirectorController::class, 'show']);
+
+
+            Route::get('/genres', [GenreController::class, 'index']);
+            Route::get('/genres/{id}', [GenreController::class, 'show']);
+
+
+            Route::get('/favourites', [FavouriteController::class, 'index']);
+            Route::post('/favourites', [FavouriteController::class, 'store']);
+            Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
+            Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
+
             Route::post('/unsubscribe', [SubscriptionController::class, 'unsubscribe']);
         });
 
-        Route::get('/users/{id}', [UserController::class, 'show']);
-        Route::put('/users/{id}', [UserController::class, 'update']);
-
-        Route::get('/movies', [MovieController::class, 'index']);
-        Route::get('/movies/{id}', [MovieController::class, 'show']);
-
-        Route::get('/series', [SeriesController::class, 'index']);
-        Route::get('/series/{id}', [SeriesController::class, 'show']);
-
-
-        Route::get('/directors', [DirectorController::class, 'index']);
-        Route::get('/directors/{id}', [DirectorController::class, 'show']);
-
-
-        Route::get('/genres', [GenreController::class, 'index']);
-        Route::get('/genres/{id}', [GenreController::class, 'show']);
-
-
-        Route::get('/favourites', [FavouriteController::class, 'index']);
-        Route::post('/favourites', [FavouriteController::class, 'store']);
-        Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
-        Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
-
         Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+        Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
     });
-
 });
