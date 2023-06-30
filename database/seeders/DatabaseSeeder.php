@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
 
         Subscription::create([
             'name' => 'Basic',
-            'price' => 3.99,
+            'price' => 2.99,
         ]);
 
         Subscription::create([
             'name' => 'Premium',
-            'price' => 9.99,
+            'price' => 6.99,
         ]);
     }
 }
