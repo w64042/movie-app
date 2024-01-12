@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
     {
         $user = auth()->user();
         $request->validate([
-            'subscription_level_id' => 'required|subscription_levels:id',
+            'subscription_level_id' => 'required|exists:subscription_levels,id',
         ]);
 
         $subscription = UserSubscription::create([
@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
         return response()->json($subscription);
     }
 
-    public function unsubscribe($id)
+    public function unsubscribe()
     {
         // there's no auto payment, so it expires on its own
         return response()->json(['message' => 'Subscription deleted']);

@@ -23,7 +23,7 @@ class IsActiveSubscription
         if (!isset($subscription)) {
             return response()->json(['error' => 'Unactive subscription', 'subscription' => null], 403);
         } else {
-            $endDate = $subscription->pivot->pluck('end_date')->orderBy('id', 'DESC')->first();
+            $endDate = $subscription->pluck('end_date')->sortByDesc('id')->first();
 
             if (isset($endDate) && $endDate < now()) {
                 return response()->json(['error' => 'Unactive subscription', 'subscription' => $subscription], 403);

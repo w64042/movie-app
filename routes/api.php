@@ -31,10 +31,11 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/refresh', [AuthController::class, 'refresh']);
 
-        Route::middleware(['admin'])->group(function () {
+        Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::get('/users', [UserController::class, 'index']);
             Route::post('/users', [UserController::class, 'store']);
             Route::delete('/users/{id}', [UserController::class, 'destroy']);
