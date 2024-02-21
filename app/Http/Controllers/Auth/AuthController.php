@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -27,20 +28,23 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|string|min:8|max:32'
+        ]);
+
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password'))
         ]);
 
-        return new UserResource($user);
+        return response()->json($user);
     }
 
     public function me()
     {
         return response()->json(auth()->user());
     }
-
-
-
 }

@@ -58,7 +58,7 @@ Route::prefix('v1')->group(function () {
 
         });
 
-        Route::middleware(['subscription'])->group(function () {
+        // Route::middleware(['subscription'])->group(function () {
             Route::get('/users/{id}', [UserController::class, 'show']);
             Route::put('/users/{id}', [UserController::class, 'update']);
 
@@ -82,8 +82,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
             Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
 
-            Route::post('/unsubscribe', [SubscriptionController::class, 'unsubscribe']);
-        });
+            // Route::post('/unsubscribe', [SubscriptionController::class, 'unsubscribe']);
+        // });
 
         Route::get('/subscriptions', [SubscriptionController::class, 'index']);
         Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
