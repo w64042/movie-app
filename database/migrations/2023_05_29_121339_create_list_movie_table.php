@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('list_movies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('list_id');
+            $table->unsignedBigInteger('user_list_id');
             $table->unsignedBigInteger('movie_id');
             $table->timestamps();
         });
 
         Schema::table('list_movies', function (Blueprint $table){
-            $table->foreign('list_id')->references('id')->on('lists');
+            $table->foreign('user_list_id')->references('id')->on('lists');
             $table->foreign('movie_id')->references('id')->on('movies');
         });
     }

@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Lists\UserList;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\List_;
 
 class ListController extends Controller
 {
     // get all user's lists
     public function index()
     {
-        $lists = auth()->user()->lists;
+        $user = User::find(auth()->user()->id);
+        $lists = UserList::with('movies', 'series')->where('user_id', $user->id)->get();
         return response()->json($lists);
     }
 
@@ -70,10 +72,15 @@ class ListController extends Controller
     {
         $user = User::find(auth()->user()->id);
         $list = $user->lists()->find($id);
+
         if (!$list) {
             return response()->json(['error' => 'List not found'], 404);
         }
+
+        $list->movies()->detach();
+        $list->series()->detach();
         $list->delete();
-        return response()->json(['message' => 'List deleted successfully']);
+
+        return response()->json(['message' => 'List deleted']);
     }
 }

@@ -18,17 +18,16 @@ class UserList extends Model
 
     public function movies()
     {
-        return $this->belongsToMany('App\Models\Movie\Movie');
+        return $this->belongsToMany('App\Models\Movie\Movie', 'list_movies');
     }
 
     public function series()
     {
-        return $this->belongsToMany('App\Models\Series\Series');
+        return $this->belongsToMany('App\Models\Series\Series', 'list_series');
     }
 
     public function user()
     {
         return $this->belongsTo('App\Models\User');
     }
-
 }

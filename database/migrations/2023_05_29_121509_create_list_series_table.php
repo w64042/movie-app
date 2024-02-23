@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('list_series', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('list_id');
+            $table->unsignedBigInteger('user_list_id');
             $table->unsignedBigInteger('series_id');
             $table->timestamps();
         });
 
         Schema::table('list_series', function (Blueprint $table){
-            $table->foreign('list_id')->references('id')->on('lists');
+            $table->foreign('user_list_id')->references('id')->on('lists');
             $table->foreign('series_id')->references('id')->on('series');
         });
     }
