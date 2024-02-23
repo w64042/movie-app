@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('lists', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('list_movies');
+        Schema::dropIfExists('list_series');
+
         Schema::dropIfExists('lists');
     }
 };

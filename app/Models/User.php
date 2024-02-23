@@ -53,7 +53,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function lists()
     {
-        return $this->hasMany('App\Models\Lists\List');
+        return $this->hasMany('App\Models\Lists\UserList');
     }
 
     public function subscription()

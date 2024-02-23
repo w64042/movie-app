@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GeneralCinematography\DirectorController;
 use App\Http\Controllers\GeneralCinematography\GenreController;
+use App\Http\Controllers\Lists\ListController;
 use App\Http\Controllers\Movies\MovieController;
 use App\Http\Controllers\Series\SeriesController;
 use App\Http\Controllers\SubscriptionController;
@@ -68,19 +69,22 @@ Route::prefix('v1')->group(function () {
             Route::get('/series', [SeriesController::class, 'index']);
             Route::get('/series/{id}', [SeriesController::class, 'show']);
 
-
             Route::get('/directors', [DirectorController::class, 'index']);
             Route::get('/directors/{id}', [DirectorController::class, 'show']);
 
-
             Route::get('/genres', [GenreController::class, 'index']);
             Route::get('/genres/{id}', [GenreController::class, 'show']);
-
 
             Route::get('/favourites', [FavouriteController::class, 'index']);
             Route::post('/favourites', [FavouriteController::class, 'store']);
             Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
             Route::get('/favourite-genre-hints', [FavouriteController::class, 'getHints']);
+
+            Route::get('/lists', [ListController::class, 'index']);
+            Route::post('/lists', [ListController::class, 'store']);
+            Route::get('/lists/{id}', [ListController::class, 'show']);
+            Route::put('/lists/{id}', [ListController::class, 'update']);
+            Route::delete('/lists/{id}', [ListController::class, 'destroy']);
 
             // Route::post('/unsubscribe', [SubscriptionController::class, 'unsubscribe']);
         // });

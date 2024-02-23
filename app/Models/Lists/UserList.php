@@ -5,7 +5,7 @@ namespace App\Models\Lists;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class List extends Model
+class UserList extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,6 @@ class List extends Model
 
     protected $fillable = [
         'title',
-        'description',
         'user_id',
     ];
 
